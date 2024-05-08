@@ -11,6 +11,8 @@ namespace Exceptions
         static void Main(string[] args)
         {
             Function1();
+
+            Console.ReadKey();
         }
 
         private static void Function1()
@@ -26,6 +28,7 @@ namespace Exceptions
             catch (Exception ex)
             {
                 Console.WriteLine($"Executing {nameof(Function1)} - Catch");
+                LogError(ex);
             }
             finally
             {
@@ -38,7 +41,24 @@ namespace Exceptions
         private static void Function2()
         {
             Console.WriteLine($"Starting {nameof(Function2)}");
+
             Function3();
+            /*
+            try
+            {
+                Function3();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Executing {nameof(Function2)} - Catch");
+                LogError(ex);
+            }
+            finally
+            {
+                Console.WriteLine($"Executing {nameof(Function2)} - Finally");
+            }
+            */
+
             Console.WriteLine($"Finished {nameof(Function2)}");
         }
 
@@ -50,6 +70,21 @@ namespace Exceptions
             int result = number / divisor;
             Console.WriteLine($"Result={result}");
             Console.WriteLine($"Finished {nameof(Function3)}");
+        }
+
+        public static void LogError(Exception e)
+        {
+            Console.WriteLine($"Exception type: {e.GetType()}");
+            Console.WriteLine($"Exception message: {e.Message}");
+            Console.WriteLine($"Stack Trace:");
+            Console.WriteLine(e.StackTrace);
+
+            if (e.InnerException != null)
+            {
+                Console.WriteLine($"Inner exception:");
+
+                LogError(e.InnerException);
+            }
         }
     }
 
